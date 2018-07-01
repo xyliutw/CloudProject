@@ -3,11 +3,18 @@
     <string name="buttonText">我的按鈕</string>
     <string name="register_url">http://140.117.168.110:80/register.php</string>
     <string name="login_url">http://140.117.168.110:80/login.php</string>
-    <string name="title_activity_home">Home</string>
+    <string name="title_activity_home">HOME</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">CIIS Traffic Reminder</string>
     <string name="nav_header_subtitle">Powered by CIIS</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">About us</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+
+    <string name="fragment_bridge">fragment bridge</string>
+    <string name="fragment_high">fragment high</string>
+    <string name="fragment_north">fragment north</string>
+    <string name="fragment_road">fragment road</string>
 </resources>
