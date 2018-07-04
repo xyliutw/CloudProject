@@ -65,4 +65,7 @@
     <string name="fragment_high">fragment high</string>
     <string name="fragment_north">fragment north</string>
     <string name="fragment_road">fragment road</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

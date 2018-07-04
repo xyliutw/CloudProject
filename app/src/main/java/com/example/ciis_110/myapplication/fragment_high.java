@@ -1,10 +1,15 @@
 package com.example.ciis_110.myapplication;
 
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,6 +31,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -55,6 +62,13 @@ public class fragment_high extends Fragment {
     private String a9_URL;
     private String a10_URL;
     private View view;
+    public class data implements Serializable {
+        String start;
+        String end;
+        String ls;
+        String rs;
+    }
+
     public fragment_high() {
         // Required empty public constructor
     }
@@ -63,10 +77,10 @@ public class fragment_high extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
+        view=inflater.inflate(R.layout.fragment_fragment_high, container, false);
         super.onActivityCreated(savedInstanceState);
 
-        view=inflater.inflate(R.layout.fragment_fragment_high, container, false);
+
 
         btn1 = (Button) view.findViewById(R.id.btn1);
         btn2 = (Button) view.findViewById(R.id.btn2);
@@ -89,6 +103,7 @@ public class fragment_high extends Fragment {
         a9_URL =  getString(R.string.a9_url);
         a10_URL =  getString(R.string.a10_url);
 
+
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,6 +116,11 @@ public class fragment_high extends Fragment {
 
                             try {
                                 JSONArray array = new JSONArray(response);
+                                ArrayList<String> startlist = new ArrayList<String>();
+                                ArrayList<String> endlist = new ArrayList<String>();
+                                ArrayList<String> lslist = new ArrayList<String>();
+                                ArrayList<String> rslist = new ArrayList<String>();
+
                                 for (int i = 0; i < array.length(); i++) {
                                     JSONObject jsonObject = array.getJSONObject(i);
                                     String id = jsonObject.getString("id");
@@ -109,46 +129,26 @@ public class fragment_high extends Fragment {
                                     String end = jsonObject.getString("end");
                                     String ls = jsonObject.getString("ls");
                                     String rs = jsonObject.getString("rs");
+                                    startlist.add(start);
+                                    endlist.add(end);
+                                    lslist.add(ls);
+                                    rslist.add(rs);
                                     Log.e("TAG", "id:" + id + ", tag:" + tag + ", start:" + start+", end:"+end+", ls:"+ls+", rs:"+rs);
                                 }
+                                Intent intent = new Intent();
+                                intent.setClass(getActivity(), drawlist.class);
+                                Bundle bundle = new Bundle();
+
+                                bundle.putSerializable("startList", startlist);
+                                bundle.putSerializable("endList", endlist);
+                                bundle.putSerializable("lsList", lslist);
+                                bundle.putSerializable("rsList", rslist);
+                                intent.putExtras(bundle);
+                                startActivity(intent);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                            Log.e("response","<>"+response);
-                            /*if(response.equals("登入成功!")) {
-                                new AlertDialog.Builder(login.this)
-                                        .setTitle("提醒")//設定視窗標題
-                                        .setIcon(R.mipmap.ic_launcher)//設定對話視窗圖示
-                                        .setMessage("登入成功!")//設定顯示的文字
-                                        .setPositiveButton("關閉視窗", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                //finish();
-                                                Intent intent = new Intent();
-                                                intent.setClass(login.this, Home.class);
-                                                startActivity(intent);
-                                                finish();
-                                            }
-                                        })//設定結束的子視窗
-                                        .show();//呈現對話視窗
-                            }else if(response.equals("登入失敗!")){
-                                new AlertDialog.Builder(login.this)
-                                        .setTitle("提醒")//設定視窗標題
-                                        .setIcon(R.mipmap.ic_launcher)//設定對話視窗圖示
-                                        .setMessage("登入失敗!")//設定顯示的文字
-                                        .setPositiveButton("關閉視窗", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                //finish();
-                                                //Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
-                                                Intent intent = new Intent();
-                                                intent.setClass(login.this, login.class);
-                                                startActivity(intent);
-                                                finish();
-                                            }
-                                        })//設定結束的子視窗
-                                        .show();//呈現對話視窗
-                            }*/
+
                         }
                     }, new Response.ErrorListener() {
                         @Override
@@ -160,6 +160,9 @@ public class fragment_high extends Fragment {
                 }
             }
         });
+
+
+
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -172,6 +175,11 @@ public class fragment_high extends Fragment {
 
                             try {
                                 JSONArray array = new JSONArray(response);
+                                ArrayList<String> startlist = new ArrayList<String>();
+                                ArrayList<String> endlist = new ArrayList<String>();
+                                ArrayList<String> lslist = new ArrayList<String>();
+                                ArrayList<String> rslist = new ArrayList<String>();
+
                                 for (int i = 0; i < array.length(); i++) {
                                     JSONObject jsonObject = array.getJSONObject(i);
                                     String id = jsonObject.getString("id");
@@ -180,46 +188,25 @@ public class fragment_high extends Fragment {
                                     String end = jsonObject.getString("end");
                                     String ls = jsonObject.getString("ls");
                                     String rs = jsonObject.getString("rs");
+                                    startlist.add(start);
+                                    endlist.add(end);
+                                    lslist.add(ls);
+                                    rslist.add(rs);
                                     Log.e("TAG", "id:" + id + ", tag:" + tag + ", start:" + start+", end:"+end+", ls:"+ls+", rs:"+rs);
                                 }
+                                Intent intent = new Intent();
+                                intent.setClass(getActivity(), drawlist.class);
+                                Bundle bundle = new Bundle();
+
+                                bundle.putSerializable("startList", startlist);
+                                bundle.putSerializable("endList", endlist);
+                                bundle.putSerializable("lsList", lslist);
+                                bundle.putSerializable("rsList", rslist);
+                                intent.putExtras(bundle);
+                                startActivity(intent);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                            Log.e("response","<>"+response);
-                            /*if(response.equals("登入成功!")) {
-                                new AlertDialog.Builder(login.this)
-                                        .setTitle("提醒")//設定視窗標題
-                                        .setIcon(R.mipmap.ic_launcher)//設定對話視窗圖示
-                                        .setMessage("登入成功!")//設定顯示的文字
-                                        .setPositiveButton("關閉視窗", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                //finish();
-                                                Intent intent = new Intent();
-                                                intent.setClass(login.this, Home.class);
-                                                startActivity(intent);
-                                                finish();
-                                            }
-                                        })//設定結束的子視窗
-                                        .show();//呈現對話視窗
-                            }else if(response.equals("登入失敗!")){
-                                new AlertDialog.Builder(login.this)
-                                        .setTitle("提醒")//設定視窗標題
-                                        .setIcon(R.mipmap.ic_launcher)//設定對話視窗圖示
-                                        .setMessage("登入失敗!")//設定顯示的文字
-                                        .setPositiveButton("關閉視窗", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                //finish();
-                                                //Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
-                                                Intent intent = new Intent();
-                                                intent.setClass(login.this, login.class);
-                                                startActivity(intent);
-                                                finish();
-                                            }
-                                        })//設定結束的子視窗
-                                        .show();//呈現對話視窗
-                            }*/
                         }
                     }, new Response.ErrorListener() {
                         @Override
@@ -243,6 +230,11 @@ public class fragment_high extends Fragment {
 
                             try {
                                 JSONArray array = new JSONArray(response);
+                                ArrayList<String> startlist = new ArrayList<String>();
+                                ArrayList<String> endlist = new ArrayList<String>();
+                                ArrayList<String> lslist = new ArrayList<String>();
+                                ArrayList<String> rslist = new ArrayList<String>();
+
                                 for (int i = 0; i < array.length(); i++) {
                                     JSONObject jsonObject = array.getJSONObject(i);
                                     String id = jsonObject.getString("id");
@@ -251,46 +243,25 @@ public class fragment_high extends Fragment {
                                     String end = jsonObject.getString("end");
                                     String ls = jsonObject.getString("ls");
                                     String rs = jsonObject.getString("rs");
+                                    startlist.add(start);
+                                    endlist.add(end);
+                                    lslist.add(ls);
+                                    rslist.add(rs);
                                     Log.e("TAG", "id:" + id + ", tag:" + tag + ", start:" + start+", end:"+end+", ls:"+ls+", rs:"+rs);
                                 }
+                                Intent intent = new Intent();
+                                intent.setClass(getActivity(), drawlist.class);
+                                Bundle bundle = new Bundle();
+
+                                bundle.putSerializable("startList", startlist);
+                                bundle.putSerializable("endList", endlist);
+                                bundle.putSerializable("lsList", lslist);
+                                bundle.putSerializable("rsList", rslist);
+                                intent.putExtras(bundle);
+                                startActivity(intent);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                            Log.e("response","<>"+response);
-                            /*if(response.equals("登入成功!")) {
-                                new AlertDialog.Builder(login.this)
-                                        .setTitle("提醒")//設定視窗標題
-                                        .setIcon(R.mipmap.ic_launcher)//設定對話視窗圖示
-                                        .setMessage("登入成功!")//設定顯示的文字
-                                        .setPositiveButton("關閉視窗", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                //finish();
-                                                Intent intent = new Intent();
-                                                intent.setClass(login.this, Home.class);
-                                                startActivity(intent);
-                                                finish();
-                                            }
-                                        })//設定結束的子視窗
-                                        .show();//呈現對話視窗
-                            }else if(response.equals("登入失敗!")){
-                                new AlertDialog.Builder(login.this)
-                                        .setTitle("提醒")//設定視窗標題
-                                        .setIcon(R.mipmap.ic_launcher)//設定對話視窗圖示
-                                        .setMessage("登入失敗!")//設定顯示的文字
-                                        .setPositiveButton("關閉視窗", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                //finish();
-                                                //Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
-                                                Intent intent = new Intent();
-                                                intent.setClass(login.this, login.class);
-                                                startActivity(intent);
-                                                finish();
-                                            }
-                                        })//設定結束的子視窗
-                                        .show();//呈現對話視窗
-                            }*/
                         }
                     }, new Response.ErrorListener() {
                         @Override
@@ -314,6 +285,11 @@ public class fragment_high extends Fragment {
 
                             try {
                                 JSONArray array = new JSONArray(response);
+                                ArrayList<String> startlist = new ArrayList<String>();
+                                ArrayList<String> endlist = new ArrayList<String>();
+                                ArrayList<String> lslist = new ArrayList<String>();
+                                ArrayList<String> rslist = new ArrayList<String>();
+
                                 for (int i = 0; i < array.length(); i++) {
                                     JSONObject jsonObject = array.getJSONObject(i);
                                     String id = jsonObject.getString("id");
@@ -322,46 +298,25 @@ public class fragment_high extends Fragment {
                                     String end = jsonObject.getString("end");
                                     String ls = jsonObject.getString("ls");
                                     String rs = jsonObject.getString("rs");
+                                    startlist.add(start);
+                                    endlist.add(end);
+                                    lslist.add(ls);
+                                    rslist.add(rs);
                                     Log.e("TAG", "id:" + id + ", tag:" + tag + ", start:" + start+", end:"+end+", ls:"+ls+", rs:"+rs);
                                 }
+                                Intent intent = new Intent();
+                                intent.setClass(getActivity(), drawlist.class);
+                                Bundle bundle = new Bundle();
+
+                                bundle.putSerializable("startList", startlist);
+                                bundle.putSerializable("endList", endlist);
+                                bundle.putSerializable("lsList", lslist);
+                                bundle.putSerializable("rsList", rslist);
+                                intent.putExtras(bundle);
+                                startActivity(intent);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                            Log.e("response","<>"+response);
-                            /*if(response.equals("登入成功!")) {
-                                new AlertDialog.Builder(login.this)
-                                        .setTitle("提醒")//設定視窗標題
-                                        .setIcon(R.mipmap.ic_launcher)//設定對話視窗圖示
-                                        .setMessage("登入成功!")//設定顯示的文字
-                                        .setPositiveButton("關閉視窗", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                //finish();
-                                                Intent intent = new Intent();
-                                                intent.setClass(login.this, Home.class);
-                                                startActivity(intent);
-                                                finish();
-                                            }
-                                        })//設定結束的子視窗
-                                        .show();//呈現對話視窗
-                            }else if(response.equals("登入失敗!")){
-                                new AlertDialog.Builder(login.this)
-                                        .setTitle("提醒")//設定視窗標題
-                                        .setIcon(R.mipmap.ic_launcher)//設定對話視窗圖示
-                                        .setMessage("登入失敗!")//設定顯示的文字
-                                        .setPositiveButton("關閉視窗", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                //finish();
-                                                //Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
-                                                Intent intent = new Intent();
-                                                intent.setClass(login.this, login.class);
-                                                startActivity(intent);
-                                                finish();
-                                            }
-                                        })//設定結束的子視窗
-                                        .show();//呈現對話視窗
-                            }*/
                         }
                     }, new Response.ErrorListener() {
                         @Override
@@ -377,6 +332,7 @@ public class fragment_high extends Fragment {
             @Override
             public void onClick(View v) {
                 if (v == btn5) {
+                    Log.e("test","1>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
                     RequestQueue requestQueue;
                     requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());//this是context
                     StringRequest stringRequest = new StringRequest(Request.Method.POST,a5_URL, new Response.Listener<String>() {
@@ -384,7 +340,13 @@ public class fragment_high extends Fragment {
                         public void onResponse(String response) {
 
                             try {
+                                Log.e("test","2>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
                                 JSONArray array = new JSONArray(response);
+                                ArrayList<String> startlist = new ArrayList<String>();
+                                ArrayList<String> endlist = new ArrayList<String>();
+                                ArrayList<String> lslist = new ArrayList<String>();
+                                ArrayList<String> rslist = new ArrayList<String>();
+
                                 for (int i = 0; i < array.length(); i++) {
                                     JSONObject jsonObject = array.getJSONObject(i);
                                     String id = jsonObject.getString("id");
@@ -393,46 +355,25 @@ public class fragment_high extends Fragment {
                                     String end = jsonObject.getString("end");
                                     String ls = jsonObject.getString("ls");
                                     String rs = jsonObject.getString("rs");
+                                    startlist.add(start);
+                                    endlist.add(end);
+                                    lslist.add(ls);
+                                    rslist.add(rs);
                                     Log.e("TAG", "id:" + id + ", tag:" + tag + ", start:" + start+", end:"+end+", ls:"+ls+", rs:"+rs);
                                 }
+                                Intent intent = new Intent();
+                                intent.setClass(getActivity(), drawlist.class);
+                                Bundle bundle = new Bundle();
+                                Log.e("test","3>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+                                bundle.putSerializable("startList", startlist);
+                                bundle.putSerializable("endList", endlist);
+                                bundle.putSerializable("lsList", lslist);
+                                bundle.putSerializable("rsList", rslist);
+                                intent.putExtras(bundle);
+                                startActivity(intent);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                            Log.e("response","<>"+response);
-                            /*if(response.equals("登入成功!")) {
-                                new AlertDialog.Builder(login.this)
-                                        .setTitle("提醒")//設定視窗標題
-                                        .setIcon(R.mipmap.ic_launcher)//設定對話視窗圖示
-                                        .setMessage("登入成功!")//設定顯示的文字
-                                        .setPositiveButton("關閉視窗", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                //finish();
-                                                Intent intent = new Intent();
-                                                intent.setClass(login.this, Home.class);
-                                                startActivity(intent);
-                                                finish();
-                                            }
-                                        })//設定結束的子視窗
-                                        .show();//呈現對話視窗
-                            }else if(response.equals("登入失敗!")){
-                                new AlertDialog.Builder(login.this)
-                                        .setTitle("提醒")//設定視窗標題
-                                        .setIcon(R.mipmap.ic_launcher)//設定對話視窗圖示
-                                        .setMessage("登入失敗!")//設定顯示的文字
-                                        .setPositiveButton("關閉視窗", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                //finish();
-                                                //Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
-                                                Intent intent = new Intent();
-                                                intent.setClass(login.this, login.class);
-                                                startActivity(intent);
-                                                finish();
-                                            }
-                                        })//設定結束的子視窗
-                                        .show();//呈現對話視窗
-                            }*/
                         }
                     }, new Response.ErrorListener() {
                         @Override
@@ -456,6 +397,11 @@ public class fragment_high extends Fragment {
 
                             try {
                                 JSONArray array = new JSONArray(response);
+                                ArrayList<String> startlist = new ArrayList<String>();
+                                ArrayList<String> endlist = new ArrayList<String>();
+                                ArrayList<String> lslist = new ArrayList<String>();
+                                ArrayList<String> rslist = new ArrayList<String>();
+
                                 for (int i = 0; i < array.length(); i++) {
                                     JSONObject jsonObject = array.getJSONObject(i);
                                     String id = jsonObject.getString("id");
@@ -464,46 +410,25 @@ public class fragment_high extends Fragment {
                                     String end = jsonObject.getString("end");
                                     String ls = jsonObject.getString("ls");
                                     String rs = jsonObject.getString("rs");
+                                    startlist.add(start);
+                                    endlist.add(end);
+                                    lslist.add(ls);
+                                    rslist.add(rs);
                                     Log.e("TAG", "id:" + id + ", tag:" + tag + ", start:" + start+", end:"+end+", ls:"+ls+", rs:"+rs);
                                 }
+                                Intent intent = new Intent();
+                                intent.setClass(getActivity(), drawlist.class);
+                                Bundle bundle = new Bundle();
+
+                                bundle.putSerializable("startList", startlist);
+                                bundle.putSerializable("endList", endlist);
+                                bundle.putSerializable("lsList", lslist);
+                                bundle.putSerializable("rsList", rslist);
+                                intent.putExtras(bundle);
+                                startActivity(intent);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                            Log.e("response","<>"+response);
-                            /*if(response.equals("登入成功!")) {
-                                new AlertDialog.Builder(login.this)
-                                        .setTitle("提醒")//設定視窗標題
-                                        .setIcon(R.mipmap.ic_launcher)//設定對話視窗圖示
-                                        .setMessage("登入成功!")//設定顯示的文字
-                                        .setPositiveButton("關閉視窗", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                //finish();
-                                                Intent intent = new Intent();
-                                                intent.setClass(login.this, Home.class);
-                                                startActivity(intent);
-                                                finish();
-                                            }
-                                        })//設定結束的子視窗
-                                        .show();//呈現對話視窗
-                            }else if(response.equals("登入失敗!")){
-                                new AlertDialog.Builder(login.this)
-                                        .setTitle("提醒")//設定視窗標題
-                                        .setIcon(R.mipmap.ic_launcher)//設定對話視窗圖示
-                                        .setMessage("登入失敗!")//設定顯示的文字
-                                        .setPositiveButton("關閉視窗", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                //finish();
-                                                //Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
-                                                Intent intent = new Intent();
-                                                intent.setClass(login.this, login.class);
-                                                startActivity(intent);
-                                                finish();
-                                            }
-                                        })//設定結束的子視窗
-                                        .show();//呈現對話視窗
-                            }*/
                         }
                     }, new Response.ErrorListener() {
                         @Override
@@ -527,6 +452,11 @@ public class fragment_high extends Fragment {
 
                             try {
                                 JSONArray array = new JSONArray(response);
+                                ArrayList<String> startlist = new ArrayList<String>();
+                                ArrayList<String> endlist = new ArrayList<String>();
+                                ArrayList<String> lslist = new ArrayList<String>();
+                                ArrayList<String> rslist = new ArrayList<String>();
+
                                 for (int i = 0; i < array.length(); i++) {
                                     JSONObject jsonObject = array.getJSONObject(i);
                                     String id = jsonObject.getString("id");
@@ -535,46 +465,25 @@ public class fragment_high extends Fragment {
                                     String end = jsonObject.getString("end");
                                     String ls = jsonObject.getString("ls");
                                     String rs = jsonObject.getString("rs");
+                                    startlist.add(start);
+                                    endlist.add(end);
+                                    lslist.add(ls);
+                                    rslist.add(rs);
                                     Log.e("TAG", "id:" + id + ", tag:" + tag + ", start:" + start+", end:"+end+", ls:"+ls+", rs:"+rs);
                                 }
+                                Intent intent = new Intent();
+                                intent.setClass(getActivity(), drawlist.class);
+                                Bundle bundle = new Bundle();
+
+                                bundle.putSerializable("startList", startlist);
+                                bundle.putSerializable("endList", endlist);
+                                bundle.putSerializable("lsList", lslist);
+                                bundle.putSerializable("rsList", rslist);
+                                intent.putExtras(bundle);
+                                startActivity(intent);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                            Log.e("response","<>"+response);
-                            /*if(response.equals("登入成功!")) {
-                                new AlertDialog.Builder(login.this)
-                                        .setTitle("提醒")//設定視窗標題
-                                        .setIcon(R.mipmap.ic_launcher)//設定對話視窗圖示
-                                        .setMessage("登入成功!")//設定顯示的文字
-                                        .setPositiveButton("關閉視窗", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                //finish();
-                                                Intent intent = new Intent();
-                                                intent.setClass(login.this, Home.class);
-                                                startActivity(intent);
-                                                finish();
-                                            }
-                                        })//設定結束的子視窗
-                                        .show();//呈現對話視窗
-                            }else if(response.equals("登入失敗!")){
-                                new AlertDialog.Builder(login.this)
-                                        .setTitle("提醒")//設定視窗標題
-                                        .setIcon(R.mipmap.ic_launcher)//設定對話視窗圖示
-                                        .setMessage("登入失敗!")//設定顯示的文字
-                                        .setPositiveButton("關閉視窗", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                //finish();
-                                                //Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
-                                                Intent intent = new Intent();
-                                                intent.setClass(login.this, login.class);
-                                                startActivity(intent);
-                                                finish();
-                                            }
-                                        })//設定結束的子視窗
-                                        .show();//呈現對話視窗
-                            }*/
                         }
                     }, new Response.ErrorListener() {
                         @Override
@@ -598,6 +507,11 @@ public class fragment_high extends Fragment {
 
                             try {
                                 JSONArray array = new JSONArray(response);
+                                ArrayList<String> startlist = new ArrayList<String>();
+                                ArrayList<String> endlist = new ArrayList<String>();
+                                ArrayList<String> lslist = new ArrayList<String>();
+                                ArrayList<String> rslist = new ArrayList<String>();
+
                                 for (int i = 0; i < array.length(); i++) {
                                     JSONObject jsonObject = array.getJSONObject(i);
                                     String id = jsonObject.getString("id");
@@ -606,46 +520,25 @@ public class fragment_high extends Fragment {
                                     String end = jsonObject.getString("end");
                                     String ls = jsonObject.getString("ls");
                                     String rs = jsonObject.getString("rs");
+                                    startlist.add(start);
+                                    endlist.add(end);
+                                    lslist.add(ls);
+                                    rslist.add(rs);
                                     Log.e("TAG", "id:" + id + ", tag:" + tag + ", start:" + start+", end:"+end+", ls:"+ls+", rs:"+rs);
                                 }
+                                Intent intent = new Intent();
+                                intent.setClass(getActivity(), drawlist.class);
+                                Bundle bundle = new Bundle();
+
+                                bundle.putSerializable("startList", startlist);
+                                bundle.putSerializable("endList", endlist);
+                                bundle.putSerializable("lsList", lslist);
+                                bundle.putSerializable("rsList", rslist);
+                                intent.putExtras(bundle);
+                                startActivity(intent);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                            Log.e("response","<>"+response);
-                            /*if(response.equals("登入成功!")) {
-                                new AlertDialog.Builder(login.this)
-                                        .setTitle("提醒")//設定視窗標題
-                                        .setIcon(R.mipmap.ic_launcher)//設定對話視窗圖示
-                                        .setMessage("登入成功!")//設定顯示的文字
-                                        .setPositiveButton("關閉視窗", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                //finish();
-                                                Intent intent = new Intent();
-                                                intent.setClass(login.this, Home.class);
-                                                startActivity(intent);
-                                                finish();
-                                            }
-                                        })//設定結束的子視窗
-                                        .show();//呈現對話視窗
-                            }else if(response.equals("登入失敗!")){
-                                new AlertDialog.Builder(login.this)
-                                        .setTitle("提醒")//設定視窗標題
-                                        .setIcon(R.mipmap.ic_launcher)//設定對話視窗圖示
-                                        .setMessage("登入失敗!")//設定顯示的文字
-                                        .setPositiveButton("關閉視窗", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                //finish();
-                                                //Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
-                                                Intent intent = new Intent();
-                                                intent.setClass(login.this, login.class);
-                                                startActivity(intent);
-                                                finish();
-                                            }
-                                        })//設定結束的子視窗
-                                        .show();//呈現對話視窗
-                            }*/
                         }
                     }, new Response.ErrorListener() {
                         @Override
@@ -669,6 +562,11 @@ public class fragment_high extends Fragment {
 
                             try {
                                 JSONArray array = new JSONArray(response);
+                                ArrayList<String> startlist = new ArrayList<String>();
+                                ArrayList<String> endlist = new ArrayList<String>();
+                                ArrayList<String> lslist = new ArrayList<String>();
+                                ArrayList<String> rslist = new ArrayList<String>();
+
                                 for (int i = 0; i < array.length(); i++) {
                                     JSONObject jsonObject = array.getJSONObject(i);
                                     String id = jsonObject.getString("id");
@@ -677,46 +575,25 @@ public class fragment_high extends Fragment {
                                     String end = jsonObject.getString("end");
                                     String ls = jsonObject.getString("ls");
                                     String rs = jsonObject.getString("rs");
+                                    startlist.add(start);
+                                    endlist.add(end);
+                                    lslist.add(ls);
+                                    rslist.add(rs);
                                     Log.e("TAG", "id:" + id + ", tag:" + tag + ", start:" + start+", end:"+end+", ls:"+ls+", rs:"+rs);
                                 }
+                                Intent intent = new Intent();
+                                intent.setClass(getActivity(), drawlist.class);
+                                Bundle bundle = new Bundle();
+
+                                bundle.putSerializable("startList", startlist);
+                                bundle.putSerializable("endList", endlist);
+                                bundle.putSerializable("lsList", lslist);
+                                bundle.putSerializable("rsList", rslist);
+                                intent.putExtras(bundle);
+                                startActivity(intent);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                            Log.e("response","<>"+response);
-                            /*if(response.equals("登入成功!")) {
-                                new AlertDialog.Builder(login.this)
-                                        .setTitle("提醒")//設定視窗標題
-                                        .setIcon(R.mipmap.ic_launcher)//設定對話視窗圖示
-                                        .setMessage("登入成功!")//設定顯示的文字
-                                        .setPositiveButton("關閉視窗", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                //finish();
-                                                Intent intent = new Intent();
-                                                intent.setClass(login.this, Home.class);
-                                                startActivity(intent);
-                                                finish();
-                                            }
-                                        })//設定結束的子視窗
-                                        .show();//呈現對話視窗
-                            }else if(response.equals("登入失敗!")){
-                                new AlertDialog.Builder(login.this)
-                                        .setTitle("提醒")//設定視窗標題
-                                        .setIcon(R.mipmap.ic_launcher)//設定對話視窗圖示
-                                        .setMessage("登入失敗!")//設定顯示的文字
-                                        .setPositiveButton("關閉視窗", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                //finish();
-                                                //Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
-                                                Intent intent = new Intent();
-                                                intent.setClass(login.this, login.class);
-                                                startActivity(intent);
-                                                finish();
-                                            }
-                                        })//設定結束的子視窗
-                                        .show();//呈現對話視窗
-                            }*/
                         }
                     }, new Response.ErrorListener() {
                         @Override
@@ -740,6 +617,11 @@ public class fragment_high extends Fragment {
 
                             try {
                                 JSONArray array = new JSONArray(response);
+                                ArrayList<String> startlist = new ArrayList<String>();
+                                ArrayList<String> endlist = new ArrayList<String>();
+                                ArrayList<String> lslist = new ArrayList<String>();
+                                ArrayList<String> rslist = new ArrayList<String>();
+
                                 for (int i = 0; i < array.length(); i++) {
                                     JSONObject jsonObject = array.getJSONObject(i);
                                     String id = jsonObject.getString("id");
@@ -748,46 +630,25 @@ public class fragment_high extends Fragment {
                                     String end = jsonObject.getString("end");
                                     String ls = jsonObject.getString("ls");
                                     String rs = jsonObject.getString("rs");
+                                    startlist.add(start);
+                                    endlist.add(end);
+                                    lslist.add(ls);
+                                    rslist.add(rs);
                                     Log.e("TAG", "id:" + id + ", tag:" + tag + ", start:" + start+", end:"+end+", ls:"+ls+", rs:"+rs);
                                 }
+                                Intent intent = new Intent();
+                                intent.setClass(getActivity(), drawlist.class);
+                                Bundle bundle = new Bundle();
+
+                                bundle.putSerializable("startList", startlist);
+                                bundle.putSerializable("endList", endlist);
+                                bundle.putSerializable("lsList", lslist);
+                                bundle.putSerializable("rsList", rslist);
+                                intent.putExtras(bundle);
+                                startActivity(intent);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                            Log.e("response","<>"+response);
-                            /*if(response.equals("登入成功!")) {
-                                new AlertDialog.Builder(login.this)
-                                        .setTitle("提醒")//設定視窗標題
-                                        .setIcon(R.mipmap.ic_launcher)//設定對話視窗圖示
-                                        .setMessage("登入成功!")//設定顯示的文字
-                                        .setPositiveButton("關閉視窗", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                //finish();
-                                                Intent intent = new Intent();
-                                                intent.setClass(login.this, Home.class);
-                                                startActivity(intent);
-                                                finish();
-                                            }
-                                        })//設定結束的子視窗
-                                        .show();//呈現對話視窗
-                            }else if(response.equals("登入失敗!")){
-                                new AlertDialog.Builder(login.this)
-                                        .setTitle("提醒")//設定視窗標題
-                                        .setIcon(R.mipmap.ic_launcher)//設定對話視窗圖示
-                                        .setMessage("登入失敗!")//設定顯示的文字
-                                        .setPositiveButton("關閉視窗", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                //finish();
-                                                //Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
-                                                Intent intent = new Intent();
-                                                intent.setClass(login.this, login.class);
-                                                startActivity(intent);
-                                                finish();
-                                            }
-                                        })//設定結束的子視窗
-                                        .show();//呈現對話視窗
-                            }*/
                         }
                     }, new Response.ErrorListener() {
                         @Override

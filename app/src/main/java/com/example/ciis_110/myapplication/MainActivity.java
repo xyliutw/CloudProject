@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 //        editTextTel = (EditText) findViewById(R.id.tel);
         buttonRegister = (Button) findViewById(R.id.create);
         buttonRegister.setOnClickListener(buttonListener);
-        buttonLogin =  findViewById(R.id.login);
+        buttonLogin =  (Button)findViewById(R.id.login);
         buttonLogin.setOnClickListener(buttonListener_login);
     }
 
